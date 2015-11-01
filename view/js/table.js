@@ -2,8 +2,7 @@ var table = (function(){
 
 
     function Table(){
-        this.gameId = 0;
-        this.userId = 0;
+
     }
 
     /*
@@ -69,10 +68,14 @@ var table = (function(){
             elements[1] = this.getArrayIndex(cellIndex.i + 1, cellIndex.j);
         }
 
+        var data = {
+            elements : JSON.stringify(elements)
+        };
+
         jQuery.ajax({
-            url:'localhost:8888/games/'+this.gameId,
+            url:'/games',
             method: 'PUT',
-            data: JSON.stringify(elements),
+            data: data,
             success: function(){
                 console.log('Draw line successfully sent to server');
             },
@@ -88,7 +91,9 @@ var table = (function(){
     /*
     Creates table in DOM model
      */
-    Table.prototype.createTable = function(size){
+    Table.prototype.createTable = function(size, userId, gameId){
+        this.gameId = userId;
+        this.userId = gameId;
 
         if(size%2 == 0) size++;
 
@@ -113,13 +118,14 @@ var table = (function(){
     Update table view by array passed from server
      */
     Table.prototype.updateTable = function(array){
+        var _this = this;
         array.forEach(function(row, i, table){
             row.forEach(function(cell, j){
-                var tableCell = this.getTableIndex(i,j);
-                if(cell == this.userId){
-                    jQuery(this.getViewCell(tableCell.i, tableCell.j)).addClass('myCell');
+                var tableCell = _this.getTableIndex(i,j);
+                if(cell == _this.userId){
+                    jQuery(_this.getViewCell(tableCell.i, tableCell.j)).addClass('myCell');
                 }else if(cell !== 0){
-                    jQuery(this.getViewCell(tableCell.i, tableCell.j)).addClass('opponentCellCell');
+                    jQuery(_this.getViewCell(tableCell.i, tableCell.j)).addClass('opponentCell');
                 }
             })
         })

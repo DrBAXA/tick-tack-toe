@@ -9,17 +9,15 @@ router.get('/game', function(req, res){
     var gameId = req.session.gameId;
     var result = gameProvider.getGame(gameId).check();
     res.write(JSON.stringify(result));
-    res.sendStatus(200);
     res.end();
 });
 
-router.put('/game', function(req, res){
-    var userId = req.session.id;
+router.put('/games', function(req, res){
+    var userId = req.session.userId;
     var gameId = req.session.gameId;
-    var cells = JSON.parse(req.body);
+    var cells = JSON.parse(req.body.elements);
     var result = gameProvider.getGame(gameId).move(userId,cells);
     res.write(JSON.stringify(result));
-    res.sendStatus(200);
     res.end();
 });
 

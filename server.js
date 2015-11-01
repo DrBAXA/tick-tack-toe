@@ -1,11 +1,8 @@
-/**
- * Created by Vasyl Danylyuk on 25.07.2015.
- */
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
+var cookieSession = require('express-session');
 var registrationController = require('./server/js/RegistrationController');
 var gameController = require('./server/js/GameController');
 
