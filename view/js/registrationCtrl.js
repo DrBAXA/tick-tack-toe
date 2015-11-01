@@ -16,12 +16,15 @@ app.controller('regCtrl', function ($scope, $http) {
             var userId = data.userId;
             var gameId = data.gameId;
             $scope.tryShowTable(userId, gameId);
-
+            $("#myModal").modal("hide");
         });
+
         responsePromise.error(function (data, status, headers, config) {
             Console.log("AJAX failed!");
         });
-    };
+
+    }
+
     $scope.fullName = function () {
         return $scope.firstName + " " + $scope.lastName;
     };
@@ -44,6 +47,20 @@ app.controller('regCtrl', function ($scope, $http) {
 
     }
 
+
+});
+app.directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
 });
 
 app.controller("gameCtrl", function($scope, $http){
